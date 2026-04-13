@@ -127,9 +127,10 @@ export const AMBIGUOUS_WORDS = [
 
 /**
  * Returns a deduplicated list of ambiguous words found in the given text.
+ * Pass a custom wordList to use a per-user word set instead of the default.
  */
-export function detectAmbiguity(text) {
-  return AMBIGUOUS_WORDS.filter((word) => {
+export function detectAmbiguity(text, wordList = AMBIGUOUS_WORDS) {
+  return wordList.filter((word) => {
     const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     return new RegExp(`\\b${escaped}\\b`, 'i').test(text)
   })
