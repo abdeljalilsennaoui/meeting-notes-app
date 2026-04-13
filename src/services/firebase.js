@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
 
 // Copy these values from your Firebase project settings.
 // Never commit your real .env file — only commit .env.example.
@@ -14,6 +15,11 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
+
+initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider('6LchurQsAAAAAKUjsGXVoP1sxqFXKuy9RJb6ERF8'),
+  isTokenAutoRefreshEnabled: true,
+})
 
 export const auth = getAuth(app)
 export const db = getFirestore(app)
