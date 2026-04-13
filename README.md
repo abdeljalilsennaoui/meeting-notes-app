@@ -2,55 +2,52 @@
 
 Transforms ambiguous meeting notes into structured, actionable tasks.
 
-**Live prototype:** https://meeting-notes-app-wine.vercel.app
+## Live prototype
+
+**https://meeting-notes-app-wine.vercel.app**
+
+Please sign in with the demo account credentials listed in the project report — a test account with sample data is already set up, so you can jump straight into the main flow without having to create one yourself.
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
 | UI framework | React 18 |
-| Markup | HTML5 |
-| Styling | Plain CSS (custom properties, BEM-like naming) |
 | Build tool | Vite 6 |
 | Routing | React Router DOM v6 |
 | Animations | Motion (Framer Motion) v12 |
 | Icons | Lucide React |
-| Backend / Auth | Firebase (Auth + Firestore) |
+| Backend / Auth | Firebase (Auth + Firestore + App Check) |
+| Hosting | Vercel |
 
-## Firebase Setup
+## Running locally (optional)
 
-1. Go to [Firebase Console](https://console.firebase.google.com) and create a new project
-2. Enable **Authentication** — go to Authentication > Sign-in method > enable Email/Password
-3. Enable **Firestore Database** — go to Firestore Database > Create database > start in test mode
-4. Go to Project Settings > General > Your apps > Add app (Web) and copy the config
-5. Create a `.env` file at the project root with your config:
+You only need this if you want to run the project off the live link — otherwise the hosted prototype is enough.
 
-```
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-```
+1. Create a Firebase project and enable **Email/Password auth** + **Firestore**.
+2. Copy your web app config into a `.env` file at the project root:
 
-6. Create the following Firestore composite indexes (Firestore > Indexes > Composite > Add index):
+    ```
+    VITE_FIREBASE_API_KEY=...
+    VITE_FIREBASE_AUTH_DOMAIN=...
+    VITE_FIREBASE_PROJECT_ID=...
+    VITE_FIREBASE_STORAGE_BUCKET=...
+    VITE_FIREBASE_MESSAGING_SENDER_ID=...
+    VITE_FIREBASE_APP_ID=...
+    ```
 
-| Collection | Fields |
-|---|---|
-| `tasks` | `notebookId` ASC, `createdAt` DESC |
-| `tasks` | `userId` ASC, `createdAt` DESC |
-| `notebooks` | `userId` ASC, `createdAt` ASC |
-| `notes` | `notebookId` ASC, `createdAt` DESC |
+3. Deploy the Firestore rules and indexes shipped in this repo:
 
-## Getting Started
+    ```bash
+    firebase deploy --only firestore:rules,firestore:indexes
+    ```
 
-```bash
-npm install
-cp .env.example .env
-# Fill .env with your Firebase project credentials
-npm run dev
-```
+4. Install and run:
+
+    ```bash
+    npm install
+    npm run dev
+    ```
 
 ## Scripts
 
