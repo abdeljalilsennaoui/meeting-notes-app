@@ -206,6 +206,7 @@ export default function Dashboard() {
   async function loadUserPrefs() {
     try {
       const prefs = await getUserPreferences(user.uid)
+      console.log('[prefs] uid:', user.uid, 'loaded:', prefs)
       setUserPrefs(prefs)
     } catch (err) {
       console.error('Failed to load user preferences:', err)
