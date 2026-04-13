@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
+import { Search, X } from 'lucide-react'
 
 const PRIORITIES = ['Low', 'Medium', 'High']
 const STATUSES = ['To Do', 'In Progress', 'Done']
@@ -282,6 +283,7 @@ function TaskCard({ task, notebooks, activeNotebookId, onUpdate, onMove, onDelet
 }
 
 export default function TaskList({ tasks, notebooks, activeNotebookId, notebookName, onUpdate, onMove, onDelete }) {
+  const [search, setSearch] = useState('')
   const [priorityFilter, setPriorityFilter] = useState([])
   const [statusFilter, setStatusFilter] = useState([])
   const [sortBy, setSortBy] = useState('newest')
@@ -294,7 +296,10 @@ export default function TaskList({ tasks, notebooks, activeNotebookId, notebookN
     setStatusFilter((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s])
   }
 
+  const q = search.trim().toLowerCase()
+
   const visibleTasks = tasks
+    .filter((t) => !q || t.title.toLowerCase().includes(q) || t.assignee.toLowerCase().includes(q) || (t.sourceNote ?? '').toLowerCase().includes(q))
     .filter((t) => priorityFilter.length === 0 || priorityFilter.includes(t.priority))
     .filter((t) => statusFilter.length === 0 || statusFilter.includes(t.status))
     .sort((a, b) => {
@@ -317,6 +322,21 @@ export default function TaskList({ tasks, notebooks, activeNotebookId, notebookN
 
   return (
     <div className="task-list">
+      <div className="task-filters__search-wrap">
+        <Search size={13} className="note-filters__search-icon" />
+        <input
+          className="note-filters__search"
+          type="text"
+          placeholder="Search tasks…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        {search && (
+          <button className="note-filters__clear" onClick={() => setSearch('')} aria-label="Clear search">
+            <X size={12} />
+          </button>
+        )}
+      </div>
       <div className="task-filters">
         <div className="task-filters__group">
           {PRIORITIES.map((p) => (
@@ -353,7 +373,9 @@ export default function TaskList({ tasks, notebooks, activeNotebookId, notebookN
       </div>
 
       {visibleTasks.length === 0 ? (
-        <p className="task-filters__empty">No tasks match the current filters.</p>
+        <p className="task-filters__empty">
+          {q ? 'No tasks match your search.' : 'No tasks match the current filters.'}
+        </p>
       ) : (
         <AnimatePresence>
           {visibleTasks.map((task) => (

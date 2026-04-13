@@ -809,6 +809,7 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
 }
 .note-filters__sort {
   flex-shrink: 0;
+  width: auto;
   font-size: 0.75rem;
   padding: 0.2rem 0.5rem;
 }
@@ -1279,6 +1280,13 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
 /* ========================================
    Task filters — priority / status toggles + sort
 ======================================== */
+.task-filters__search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
 .task-filters {
   display: flex;
   flex-wrap: wrap;
@@ -1317,6 +1325,7 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
 
 .task-filters__sort {
   margin-left: auto;
+  width: auto;
   font-size: 0.75rem;
   padding: 0.2rem 0.5rem;
   min-width: 0;
