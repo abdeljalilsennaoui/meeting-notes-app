@@ -98,7 +98,6 @@ function NotebookItem({ notebook, isActive, onSelect, onRename, onDelete }) {
         <button
           className="notebook-nav__item-action"
           onClick={() => { setEditName(notebook.name); setError(''); setMode('editing') }}
-          title="Rename"
           aria-label="Rename notebook"
         >
           <Pencil size={13} />
@@ -106,7 +105,6 @@ function NotebookItem({ notebook, isActive, onSelect, onRename, onDelete }) {
         <button
           className="notebook-nav__item-action notebook-nav__item-action--delete"
           onClick={() => { setError(''); setMode('confirming') }}
-          title="Delete"
           aria-label="Delete notebook"
         >
           <Trash2 size={13} />

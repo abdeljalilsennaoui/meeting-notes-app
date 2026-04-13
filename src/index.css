@@ -888,6 +888,7 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
 
 .notebook-nav__item {
   flex: 1;
+  min-width: 0;
   text-align: left;
   padding: 0.4375rem 0.5rem 0.4375rem 0.625rem;
   font-size: 0.8125rem;
@@ -896,6 +897,9 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
   background: none;
   border: none;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .notebook-nav__item-row:hover .notebook-nav__item { color: var(--text-primary); }
 .notebook-nav__item--active { font-weight: 700; color: #ffffff; }
