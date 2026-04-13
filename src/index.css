@@ -1182,6 +1182,59 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
 }
 
 /* ========================================
+   Task filters — priority / status toggles + sort
+======================================== */
+.task-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 0.875rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.task-filters__group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.task-filter-btn {
+  padding: 0.2rem 0.625rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.13s, color 0.13s, border-color 0.13s;
+}
+.task-filter-btn:hover { background: var(--bg-muted); }
+.task-filter-btn--active {
+  background: var(--action-bg);
+  color: #fff;
+  border-color: var(--action-bg);
+}
+.task-filter-btn--active:hover { background: var(--action-bg-hover); border-color: var(--action-bg-hover); }
+
+.task-filters__sort {
+  margin-left: auto;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  min-width: 0;
+}
+
+.task-filters__empty {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-faint);
+  padding: 2rem 0;
+}
+
+/* ========================================
    Word settings — collapsible panel
 ======================================== */
 .word-settings {
