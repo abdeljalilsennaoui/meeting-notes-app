@@ -5,9 +5,9 @@ import { ChevronDown, ChevronUp, X } from 'lucide-react'
  * Collapsible panel for managing the per-user ambiguous word list.
  *
  * Props:
- *   defaultWords  — the full AMBIGUOUS_WORDS array (built-in list)
- *   userPrefs     — { removedDefaultWords: string[], customWords: string[] }
- *   onSave(prefs) — async callback; receives the updated prefs object
+ *   defaultWords: the full AMBIGUOUS_WORDS array (built-in list)
+ *   userPrefs: { removedDefaultWords: string[], customWords: string[] }
+ *   onSave(prefs): async callback, receives the updated prefs object
  */
 export default function WordSettings({ defaultWords, userPrefs, onSave }) {
   const [open, setOpen] = useState(false)

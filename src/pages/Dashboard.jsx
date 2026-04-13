@@ -14,7 +14,7 @@ import { detectAmbiguity, AMBIGUOUS_WORDS } from '../utils/ambiguousWords'
 import { getUserPreferences, saveUserPreferences } from '../services/userPreferencesService'
 
 /**
- * Inline notebook list item — handles rename and delete without leaving the panel.
+ * Inline notebook list item that handles rename and delete without leaving the panel.
  * HCI: recognition over recall (name always visible), recoverability (confirm before delete),
  *      user control (edit/delete available per item).
  */
@@ -210,7 +210,7 @@ export default function Dashboard() {
       setUserPrefs(prefs)
     } catch (err) {
       console.error('Failed to load user preferences:', err)
-      // Non-fatal — falls back to full default word list
+      // Non-fatal, falls back to full default word list
     }
   }
 
@@ -230,7 +230,7 @@ export default function Dashboard() {
   // ── Notebook handlers ──────────────────────────────────────
 
   async function handleCreateNotebookInline(name) {
-    const ref = await createNotebook(user.uid, name) // throws on error — caller handles it
+    const ref = await createNotebook(user.uid, name) // throws on error, caller handles it
     const created = { id: ref.id, name }
     setNotebooks((prev) => [...prev, created])
     setActiveNotebookId(ref.id)
@@ -266,7 +266,7 @@ export default function Dashboard() {
   /**
    * Called when the user clicks "Convert to Task →".
    * The note text is passed to TaskForm as sourceNote and stored on the task document.
-   * It is NOT saved as a separate note entry — the user saves notes explicitly.
+   * It is NOT saved as a separate note entry, the user saves notes explicitly.
    */
   function handleProceed(note, ambiguityCount) {
     setCurrentNote(note)
@@ -326,7 +326,7 @@ export default function Dashboard() {
         setNotebookNotes((prev) => prev.filter((n) => n.id !== convertingNoteId))
       } catch (err) {
         console.error('Failed to remove converted note:', err)
-        // Non-fatal — task was created successfully; user can delete the note manually
+        // Non-fatal, task was created successfully, user can delete the note manually
       }
       setConvertingNoteId(null)
     }
@@ -386,7 +386,7 @@ export default function Dashboard() {
 
       <div className="dashboard__grid">
 
-        {/* ── Left panel — note entry + task creation ── */}
+        {/* Left panel: note entry and task creation */}
         <div className="panel">
           <AnimatePresence mode="wait">
             {step === 'note' ? (
@@ -451,7 +451,7 @@ export default function Dashboard() {
           </AnimatePresence>
         </div>
 
-        {/* ── Right panel — notebook selector + tasks/notes ── */}
+        {/* Right panel: notebook selector and tasks/notes */}
         <div className="panel">
 
           {loadingNotebooks ? (
@@ -463,12 +463,12 @@ export default function Dashboard() {
             </div>
           ) : (
             <>
-              {/* Notebook navigator — collapsed by default, expand to switch/manage */}
+              {/* Notebook navigator, collapsed by default, expand to switch/manage */}
               <div className="notebook-nav">
                 <div className="notebook-nav__header">
                   <span className="notebook-nav__label">Notebooks</span>
                   <div className="notebook-nav__header-right">
-                    {/* Collapsed summary — shows active notebook name; click to expand */}
+                    {/* Collapsed summary, shows active notebook name, click to expand */}
                     {!isNavExpanded && activeNotebook && (
                       <button
                         className="notebook-nav__collapsed-toggle"
@@ -519,7 +519,7 @@ export default function Dashboard() {
                   </div>
                 )}
 
-                {/* Expanded list — switch, rename, delete */}
+                {/* Expanded list: switch, rename, delete */}
                 {isNavExpanded && notebooks.length > 0 && (
                   <div className="notebook-nav__list">
                     {notebooks.map((nb) => (
@@ -543,7 +543,7 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <>
-                  {/* Tabs — scoped to the active notebook */}
+                  {/* Tabs scoped to the active notebook */}
                   <div className="tabs">
                     <button
                       onClick={() => setActiveTab('tasks')}

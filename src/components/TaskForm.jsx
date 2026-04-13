@@ -1,4 +1,4 @@
-// Step 2 of the flow. Assignee + due date are required at the UI level — the whole point is to force non-vague tasks.
+// Step 2 of the flow. Assignee and due date are required by the UI. That's the whole point: stop vague tasks getting through.
 import { useState, useId } from 'react'
 import { motion } from 'motion/react'
 import { createTask } from '../services/taskService'
@@ -9,11 +9,11 @@ const STATUSES = ['To Do', 'In Progress', 'Done']
 
 /**
  * Props:
- *   sourceNote      — the raw note text that triggered this task
- *   notebookId      — the notebook this task belongs to (links task to notes)
- *   onTaskCreated   — callback fired after a successful save
- *   ambiguityCount  — number of ambiguous terms in the source note (evaluation metadata)
- *   noteConvertedAt — timestamp (ms) when "Convert to Task" was clicked (evaluation metadata)
+ *   sourceNote: the raw note text that triggered this task
+ *   notebookId: the notebook this task belongs to (links task to notes)
+ *   onTaskCreated: callback fired after a successful save
+ *   ambiguityCount: number of ambiguous terms in the source note (evaluation metadata)
+ *   noteConvertedAt: timestamp (ms) when "Convert to Task" was clicked (evaluation metadata)
  */
 export default function TaskForm({ sourceNote = '', notebookId = null, onTaskCreated, ambiguityCount = 0, noteConvertedAt = null }) {
   const id = useId()
@@ -49,7 +49,7 @@ export default function TaskForm({ sourceNote = '', notebookId = null, onTaskCre
         userId: user.uid,
         notebookId,
         sourceNote,
-        // Evaluation metadata — stored on the document for later analysis
+        // Evaluation metadata stored on the document for later analysis
         ambiguityCount,
         timeToTaskMs: noteConvertedAt ? Date.now() - noteConvertedAt : null,
       })

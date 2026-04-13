@@ -16,7 +16,7 @@ export async function getUserPreferences(userId) {
 
 /**
  * Saves (upserts) preferences for a user.
- * Only the provided fields are merged — other fields are preserved.
+ * Only the provided fields are merged, other fields are preserved.
  */
 export async function saveUserPreferences(userId, prefs) {
   const ref = doc(db, 'userPreferences', userId)

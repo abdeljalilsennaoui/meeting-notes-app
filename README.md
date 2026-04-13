@@ -6,7 +6,7 @@ Transforms ambiguous meeting notes into structured, actionable tasks.
 
 **https://meeting-notes-app-wine.vercel.app**
 
-Please sign in with the demo account credentials listed in the project report — a test account with sample data is already set up, so you can jump straight into the main flow without having to create one yourself.
+Sign in with the demo account credentials listed in the project report. The account already has sample data so you can go straight to the dashboard.
 
 ## Tech Stack
 
@@ -22,7 +22,7 @@ Please sign in with the demo account credentials listed in the project report �
 
 ## Running locally (optional)
 
-You only need this if you want to run the project off the live link — otherwise the hosted prototype is enough.
+Only needed if you want to run the project outside the live link. The hosted version already has everything.
 
 1. Create a Firebase project and enable **Email/Password auth** + **Firestore**.
 2. Copy your web app config into a `.env` file at the project root:

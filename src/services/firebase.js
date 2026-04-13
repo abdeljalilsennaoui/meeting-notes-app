@@ -5,7 +5,7 @@ import { getFirestore } from 'firebase/firestore'
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
 
 // Copy these values from your Firebase project settings.
-// Never commit your real .env file — only commit .env.example.
+// Never commit your real .env file, only commit .env.example.
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,

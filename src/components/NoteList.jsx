@@ -34,10 +34,10 @@ function downloadTxt(notebookName, notes, tasks) {
 
 /**
  * Modes:
- *   view        — displays note content; footer shows Edit / Move / Delete
- *   edit        — textarea replaces content; footer shows Cancel / Save
- *   moving      — move-to-notebook selector shown below note content; footer hidden
- *   confirming  — delete confirmation in footer
+ *   view: displays note content, footer shows Edit / Move / Delete
+ *   edit: textarea replaces content, footer shows Cancel / Save
+ *   moving: move-to-notebook selector shown below note content, footer hidden
+ *   confirming: delete confirmation in footer
  */
 function NoteCard({ note, notebooks, activeNotebookId, onUpdate, onMove, onDelete, onConvert }) {
   const [mode, setMode] = useState('view')
@@ -144,7 +144,7 @@ function NoteCard({ note, notebooks, activeNotebookId, onUpdate, onMove, onDelet
           <p className="note-card__content">{note.content}</p>
           <p className="note-card__date">{date}</p>
 
-          {/* Move panel — shown when mode === 'moving' */}
+          {/* Move panel, shown when mode === 'moving' */}
           {mode === 'moving' && (
             <div className="card-move-row">
               <span className="card-move-label">Move to</span>
@@ -173,7 +173,7 @@ function NoteCard({ note, notebooks, activeNotebookId, onUpdate, onMove, onDelet
 
           {error && <p className="form-error" style={{ marginTop: '0.25rem' }}>{error}</p>}
 
-          {/* Footer — hidden while move panel is open */}
+          {/* Footer, hidden while move panel is open */}
           {mode !== 'moving' && (
             <div className="note-card__footer">
               {mode === 'confirming' ? (

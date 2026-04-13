@@ -10,10 +10,10 @@ const STATUS_CLASS = { 'To Do': 'badge-status-todo', 'In Progress': 'badge-statu
 
 /**
  * Modes:
- *   view        — displays task data; footer shows Edit / Move / Delete
- *   edit        — inline edit form replacing the card body
- *   moving      — move-to-notebook selector shown below task body; footer hidden
- *   confirming  — delete confirmation in footer
+ *   view: displays task data, footer shows Edit / Move / Delete
+ *   edit: inline edit form replacing the card body
+ *   moving: move-to-notebook selector shown below task body, footer hidden
+ *   confirming: delete confirmation in footer
  */
 function TaskCard({ task, notebooks, activeNotebookId, onUpdate, onMove, onDelete }) {
   const [mode, setMode] = useState('view')
@@ -43,7 +43,7 @@ function TaskCard({ task, notebooks, activeNotebookId, onUpdate, onMove, onDelet
     try {
       await onUpdate(task.id, { status: newStatus })
     } catch {
-      // silently ignore — the badge still shows the correct stored state
+      // silently ignore, the badge still shows the correct stored state
     }
   }
 
@@ -212,7 +212,7 @@ function TaskCard({ task, notebooks, activeNotebookId, onUpdate, onMove, onDelet
             </p>
           )}
 
-          {/* Move panel — shown when mode === 'moving' */}
+          {/* Move panel, shown when mode === 'moving' */}
           {mode === 'moving' && (
             <div className="card-move-row">
               <span className="card-move-label">Move to</span>
@@ -241,7 +241,7 @@ function TaskCard({ task, notebooks, activeNotebookId, onUpdate, onMove, onDelet
 
           {error && <p className="form-error" style={{ marginTop: '0.25rem' }}>{error}</p>}
 
-          {/* Footer — hidden while move panel is open */}
+          {/* Footer, hidden while move panel is open */}
           {mode !== 'moving' && (
             <div className="task-card__footer">
               {mode === 'confirming' ? (
@@ -307,7 +307,7 @@ export default function TaskList({ tasks, notebooks, activeNotebookId, notebookN
       if (sortBy === 'oldest')   return (a.createdAt?.seconds ?? 0) - (b.createdAt?.seconds ?? 0)
       if (sortBy === 'due_asc')  return (a.dueDate ?? '').localeCompare(b.dueDate ?? '')
       if (sortBy === 'due_desc') return (b.dueDate ?? '').localeCompare(a.dueDate ?? '')
-      return 0 // 'newest' — server order preserved
+      return 0 // 'newest', server order preserved
     })
 
   if (!tasks.length) {

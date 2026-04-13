@@ -1,4 +1,4 @@
-// Email/password sign-up. Same local validation as login — on success Firebase returns the session automatically.
+// Email/password sign-up. Same local validation as login. Firebase returns a session on success so no extra redirect logic is needed.
 import { useState, useId } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff } from 'lucide-react'

@@ -4,11 +4,11 @@ import { detectAmbiguity, AMBIGUOUS_WORDS } from '../utils/ambiguousWords'
 
 /**
  * Props:
- *   onProceed(note, ambiguityCount) — advances to task creation
- *   onSaveNote(content, notebookId) — saves note; returns true/false
- *   activeNotebook                  — currently selected notebook object or null
- *   onCreateNotebook(name)          — creates a new notebook; returns the created object
- *   wordList                        — effective ambiguous word list (custom per-user)
+ *   onProceed(note, ambiguityCount): advances to task creation
+ *   onSaveNote(content, notebookId): saves note, returns true/false
+ *   activeNotebook: currently selected notebook object or null
+ *   onCreateNotebook(name): creates a new notebook, returns the created object
+ *   wordList: effective ambiguous word list (custom per-user)
  */
 export default function NoteInput({ onProceed, onSaveNote, activeNotebook, onCreateNotebook, wordList = AMBIGUOUS_WORDS }) {
   const id = useId()
@@ -71,7 +71,7 @@ export default function NoteInput({ onProceed, onSaveNote, activeNotebook, onCre
         />
       </div>
 
-      {/* Live preview — only shown when there is text */}
+      {/* Live preview, only shown when there is text */}
       {note.trim() && <AmbiguityHighlighter text={note} wordList={wordList} />}
 
       {/* Ambiguity feedback */}
@@ -101,7 +101,7 @@ export default function NoteInput({ onProceed, onSaveNote, activeNotebook, onCre
       )}
       {saveError && <p className="form-error">{saveError}</p>}
 
-      {/* Notebook creation prompt — shown only when no notebook exists and note has text */}
+      {/* Notebook creation prompt, shown only when no notebook exists and note has text */}
       {noNotebook && note.trim() && (
         <div className="note-input__notebook-prompt">
           <p className="note-input__notebook-prompt-label">Give this notebook a name:</p>
