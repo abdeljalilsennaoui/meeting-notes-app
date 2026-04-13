@@ -902,6 +902,7 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
   text-overflow: ellipsis;
 }
 .notebook-nav__item-row:hover .notebook-nav__item { color: var(--text-primary); }
+.notebook-nav__item-row--active:hover .notebook-nav__item { color: #ffffff; }
 .notebook-nav__item--active { font-weight: 700; color: #ffffff; }
 
 /* Rename / Delete buttons — visible on row hover or when active */
