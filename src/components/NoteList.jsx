@@ -38,7 +38,7 @@ function downloadTxt(notebookName, notes, tasks) {
  *   moving      — move-to-notebook selector shown below note content; footer hidden
  *   confirming  — delete confirmation in footer
  */
-function NoteCard({ note, notebooks, activeNotebookId, onUpdate, onMove, onDelete }) {
+function NoteCard({ note, notebooks, activeNotebookId, onUpdate, onMove, onDelete, onConvert }) {
   const [mode, setMode] = useState('view')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
@@ -198,6 +198,9 @@ function NoteCard({ note, notebooks, activeNotebookId, onUpdate, onMove, onDelet
                   {otherNotebooks.length > 0 && (
                     <button className="task-card__action-btn" onClick={openMove}>Move</button>
                   )}
+                  <button className="task-card__action-btn" onClick={() => onConvert(note)}>
+                    Convert to Task
+                  </button>
                   <button
                     className="task-card__delete-btn"
                     onClick={() => { setMode('confirming'); setError('') }}
@@ -214,7 +217,7 @@ function NoteCard({ note, notebooks, activeNotebookId, onUpdate, onMove, onDelet
   )
 }
 
-export default function NoteList({ notes, tasks = [], notebooks, activeNotebookId, notebookName, onUpdate, onMove, onDelete }) {
+export default function NoteList({ notes, tasks = [], notebooks, activeNotebookId, notebookName, onUpdate, onMove, onDelete, onConvert }) {
   return (
     <div>
       {(notes.length > 0 || tasks.length > 0) && (
@@ -241,6 +244,7 @@ export default function NoteList({ notes, tasks = [], notebooks, activeNotebookI
                 onUpdate={onUpdate}
                 onMove={onMove}
                 onDelete={onDelete}
+                onConvert={onConvert}
               />
             ))}
           </AnimatePresence>
