@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { Download } from 'lucide-react'
+import { Download, Search, X } from 'lucide-react'
 
 function downloadTxt(notebookName, notes, tasks) {
   const noteLines = notes.map((n) => {
@@ -246,13 +246,21 @@ export default function NoteList({ notes, tasks = [], notebooks, activeNotebookI
       ) : (
         <>
           <div className="note-filters">
-            <input
-              className="note-filters__search"
-              type="search"
-              placeholder="Search notes…"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+            <div className="note-filters__search-wrap">
+              <Search size={13} className="note-filters__search-icon" />
+              <input
+                className="note-filters__search"
+                type="text"
+                placeholder="Search notes…"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              {search && (
+                <button className="note-filters__clear" onClick={() => setSearch('')} aria-label="Clear search">
+                  <X size={12} />
+                </button>
+              )}
+            </div>
             <select
               className="form-select task-filters__sort"
               value={sortBy}
