@@ -179,7 +179,7 @@ export default function Dashboard() {
     setLoadingTasks(true)
     setTasksError(false)
     try {
-      const data = await getTasksByNotebook(notebookId)
+      const data = await getTasksByNotebook(notebookId, user.uid)
       setTasks(data)
     } catch (err) {
       console.error('Failed to load tasks:', err)
@@ -193,7 +193,7 @@ export default function Dashboard() {
     setLoadingNotes(true)
     setNotesError(false)
     try {
-      const data = await getNotesByNotebook(notebookId)
+      const data = await getNotesByNotebook(notebookId, user.uid)
       setNotebookNotes(data)
     } catch (err) {
       console.error('Failed to load notes:', err)

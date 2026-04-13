@@ -30,9 +30,10 @@ export async function createTask(task) {
  * Returns all tasks for a given notebook, ordered newest first.
  * Requires composite index: notebookId ASC + createdAt DESC.
  */
-export async function getTasksByNotebook(notebookId) {
+export async function getTasksByNotebook(notebookId, userId) {
   const q = query(
     collection(db, 'tasks'),
+    where('userId', '==', userId),
     where('notebookId', '==', notebookId),
     orderBy('createdAt', 'desc')
   )

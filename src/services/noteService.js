@@ -51,9 +51,10 @@ export async function saveNote(userId, content, notebookId = null) {
   })
 }
 
-export async function getNotesByNotebook(notebookId) {
+export async function getNotesByNotebook(notebookId, userId) {
   const q = query(
     collection(db, 'notes'),
+    where('userId', '==', userId),
     where('notebookId', '==', notebookId),
     orderBy('createdAt', 'desc')
   )
