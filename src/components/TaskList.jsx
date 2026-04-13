@@ -282,6 +282,28 @@ function TaskCard({ task, notebooks, activeNotebookId, onUpdate, onMove, onDelet
 }
 
 export default function TaskList({ tasks, notebooks, activeNotebookId, notebookName, onUpdate, onMove, onDelete }) {
+  const [priorityFilter, setPriorityFilter] = useState([])
+  const [statusFilter, setStatusFilter] = useState([])
+  const [sortBy, setSortBy] = useState('newest')
+
+  function togglePriority(p) {
+    setPriorityFilter((prev) => prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p])
+  }
+
+  function toggleStatus(s) {
+    setStatusFilter((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s])
+  }
+
+  const visibleTasks = tasks
+    .filter((t) => priorityFilter.length === 0 || priorityFilter.includes(t.priority))
+    .filter((t) => statusFilter.length === 0 || statusFilter.includes(t.status))
+    .sort((a, b) => {
+      if (sortBy === 'oldest')   return (a.createdAt?.seconds ?? 0) - (b.createdAt?.seconds ?? 0)
+      if (sortBy === 'due_asc')  return (a.dueDate ?? '').localeCompare(b.dueDate ?? '')
+      if (sortBy === 'due_desc') return (b.dueDate ?? '').localeCompare(a.dueDate ?? '')
+      return 0 // 'newest' — server order preserved
+    })
+
   if (!tasks.length) {
     return (
       <div className="empty-state">
@@ -292,21 +314,61 @@ export default function TaskList({ tasks, notebooks, activeNotebookId, notebookN
       </div>
     )
   }
+
   return (
     <div className="task-list">
-      <AnimatePresence>
-        {tasks.map((task) => (
-          <TaskCard
-            key={task.id}
-            task={task}
-            notebooks={notebooks}
-            activeNotebookId={activeNotebookId}
-            onUpdate={onUpdate}
-            onMove={onMove}
-            onDelete={onDelete}
-          />
-        ))}
-      </AnimatePresence>
+      <div className="task-filters">
+        <div className="task-filters__group">
+          {PRIORITIES.map((p) => (
+            <button
+              key={p}
+              className={`task-filter-btn${priorityFilter.includes(p) ? ' task-filter-btn--active' : ''}`}
+              onClick={() => togglePriority(p)}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
+        <div className="task-filters__group">
+          {STATUSES.map((s) => (
+            <button
+              key={s}
+              className={`task-filter-btn${statusFilter.includes(s) ? ' task-filter-btn--active' : ''}`}
+              onClick={() => toggleStatus(s)}
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+        <select
+          className="form-select task-filters__sort"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+        >
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+          <option value="due_asc">Due date ↑</option>
+          <option value="due_desc">Due date ↓</option>
+        </select>
+      </div>
+
+      {visibleTasks.length === 0 ? (
+        <p className="task-filters__empty">No tasks match the current filters.</p>
+      ) : (
+        <AnimatePresence>
+          {visibleTasks.map((task) => (
+            <TaskCard
+              key={task.id}
+              task={task}
+              notebooks={notebooks}
+              activeNotebookId={activeNotebookId}
+              onUpdate={onUpdate}
+              onMove={onMove}
+              onDelete={onDelete}
+            />
+          ))}
+        </AnimatePresence>
+      )}
     </div>
   )
 }
