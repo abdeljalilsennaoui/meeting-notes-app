@@ -748,6 +748,32 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
 /* ========================================
    NoteList / NoteCard
 ======================================== */
+.note-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.875rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-light);
+}
+.note-filters__search {
+  flex: 1;
+  min-width: 0;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  font-family: inherit;
+  color: var(--text-primary);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.note-filters__search:focus {
+  border-color: var(--pal-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--pal-accent) 20%, transparent);
+}
+
 .note-list { display: flex; flex-direction: column; gap: 0.625rem; }
 .note-list__export-row { display: flex; justify-content: flex-end; margin-bottom: 0.75rem; }
 .note-list__export-btn {

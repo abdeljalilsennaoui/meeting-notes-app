@@ -218,6 +218,17 @@ function NoteCard({ note, notebooks, activeNotebookId, onUpdate, onMove, onDelet
 }
 
 export default function NoteList({ notes, tasks = [], notebooks, activeNotebookId, notebookName, onUpdate, onMove, onDelete, onConvert }) {
+  const [search, setSearch] = useState('')
+  const [sortBy, setSortBy] = useState('newest')
+
+  const visibleNotes = notes
+    .filter((n) => !search.trim() || n.content.toLowerCase().includes(search.trim().toLowerCase()))
+    .sort((a, b) => {
+      const aTs = a.createdAt?.seconds ?? 0
+      const bTs = b.createdAt?.seconds ?? 0
+      return sortBy === 'oldest' ? aTs - bTs : bTs - aTs
+    })
+
   return (
     <div>
       {(notes.length > 0 || tasks.length > 0) && (
@@ -233,22 +244,45 @@ export default function NoteList({ notes, tasks = [], notebooks, activeNotebookI
           <p className="empty-state__hint">Write something on the left and hit "Save as note".</p>
         </div>
       ) : (
-        <div className="note-list">
-          <AnimatePresence>
-            {notes.map((note) => (
-              <NoteCard
-                key={note.id}
-                note={note}
-                notebooks={notebooks}
-                activeNotebookId={activeNotebookId}
-                onUpdate={onUpdate}
-                onMove={onMove}
-                onDelete={onDelete}
-                onConvert={onConvert}
-              />
-            ))}
-          </AnimatePresence>
-        </div>
+        <>
+          <div className="note-filters">
+            <input
+              className="note-filters__search"
+              type="search"
+              placeholder="Search notes…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <select
+              className="form-select task-filters__sort"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+            </select>
+          </div>
+          {visibleNotes.length === 0 ? (
+            <p className="task-filters__empty">No notes match your search.</p>
+          ) : (
+            <div className="note-list">
+              <AnimatePresence>
+                {visibleNotes.map((note) => (
+                  <NoteCard
+                    key={note.id}
+                    note={note}
+                    notebooks={notebooks}
+                    activeNotebookId={activeNotebookId}
+                    onUpdate={onUpdate}
+                    onMove={onMove}
+                    onDelete={onDelete}
+                    onConvert={onConvert}
+                  />
+                ))}
+              </AnimatePresence>
+            </div>
+          )}
+        </>
       )}
     </div>
   )
