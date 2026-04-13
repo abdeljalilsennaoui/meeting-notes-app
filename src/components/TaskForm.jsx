@@ -1,3 +1,4 @@
+// Step 2 of the flow. Assignee + due date are required at the UI level — the whole point is to force non-vague tasks.
 import { useState, useId } from 'react'
 import { motion } from 'motion/react'
 import { createTask } from '../services/taskService'

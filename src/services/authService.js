@@ -1,3 +1,4 @@
+// Thin wrapper over Firebase Auth so components never touch firebase directly.
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,

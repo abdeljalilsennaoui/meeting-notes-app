@@ -1,3 +1,4 @@
+// Email/password sign-in. Validates locally before hitting Firebase so we don't burn requests on obvious errors.
 import { useState, useId } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff } from 'lucide-react'

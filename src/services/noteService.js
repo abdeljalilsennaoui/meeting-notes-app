@@ -1,3 +1,4 @@
+// Firestore CRUD for notebooks and notes. Queries always filter by userId to match the security rules.
 import {
   collection,
   addDoc,

@@ -1,3 +1,4 @@
+// Task cards with colour-coded priority/status badges, search, sort, and two-step delete (so accidental clicks don't wipe work).
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { Search, X } from 'lucide-react'

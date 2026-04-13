@@ -1,3 +1,4 @@
+// Notebook's note list with inline search, edit, delete, and .txt export (built client-side, no server).
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { Download, Search, X } from 'lucide-react'

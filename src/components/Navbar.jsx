@@ -1,3 +1,4 @@
+// Top nav. Shows different links depending on whether the user is signed in.
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'

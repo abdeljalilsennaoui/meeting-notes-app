@@ -1,3 +1,4 @@
+// Renders the note text with flagged words wrapped in <mark>. Rebuilds the regex only when the word list changes.
 import { useMemo } from 'react'
 import { AMBIGUOUS_WORDS } from '../utils/ambiguousWords'
 

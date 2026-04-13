@@ -1,3 +1,4 @@
+// Firestore CRUD for tasks. Tasks also carry the source note + timing metadata for evaluation.
 import {
   collection,
   addDoc,

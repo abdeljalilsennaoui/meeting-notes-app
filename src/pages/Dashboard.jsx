@@ -1,3 +1,4 @@
+// The main screen. Left column: note entry + task form. Right column: notebooks/notes or tasks for the active notebook.
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { Plus, ChevronDown, ChevronUp, Pencil, Trash2 } from 'lucide-react'

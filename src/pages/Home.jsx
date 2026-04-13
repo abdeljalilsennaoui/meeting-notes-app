@@ -1,3 +1,4 @@
+// Landing page. CTA sends signed-in users to the dashboard, everyone else to signup.
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import { Zap, CheckCircle, LayoutDashboard } from 'lucide-react'

@@ -2,6 +2,8 @@
 
 Transforms ambiguous meeting notes into structured, actionable tasks.
 
+**Live prototype:** https://meeting-notes-app-wine.vercel.app
+
 ## Tech Stack
 
 | Layer | Technology |

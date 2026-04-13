@@ -1,3 +1,4 @@
+// Firebase app init + App Check (reCAPTCHA v3). Everything else imports `auth` and `db` from here.
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
