@@ -1,6 +1,6 @@
 import { useState, useId } from 'react'
 import AmbiguityHighlighter from './AmbiguityHighlighter'
-import { detectAmbiguity } from '../utils/ambiguousWords'
+import { detectAmbiguity, AMBIGUOUS_WORDS } from '../utils/ambiguousWords'
 
 /**
  * Props:
@@ -8,8 +8,9 @@ import { detectAmbiguity } from '../utils/ambiguousWords'
  *   onSaveNote(content, notebookId) — saves note; returns true/false
  *   activeNotebook                  — currently selected notebook object or null
  *   onCreateNotebook(name)          — creates a new notebook; returns the created object
+ *   wordList                        — effective ambiguous word list (custom per-user)
  */
-export default function NoteInput({ onProceed, onSaveNote, activeNotebook, onCreateNotebook }) {
+export default function NoteInput({ onProceed, onSaveNote, activeNotebook, onCreateNotebook, wordList = AMBIGUOUS_WORDS }) {
   const id = useId()
   const [note, setNote] = useState('')
   const [saved, setSaved] = useState(false)
@@ -17,7 +18,7 @@ export default function NoteInput({ onProceed, onSaveNote, activeNotebook, onCre
   const [newNotebookName, setNewNotebookName] = useState('')
   const [creatingNotebook, setCreatingNotebook] = useState(false)
 
-  const ambiguities = detectAmbiguity(note)
+  const ambiguities = detectAmbiguity(note, wordList)
   const hasAmbiguity = ambiguities.length > 0
   const noNotebook = !activeNotebook
 
@@ -71,7 +72,7 @@ export default function NoteInput({ onProceed, onSaveNote, activeNotebook, onCre
       </div>
 
       {/* Live preview — only shown when there is text */}
-      {note.trim() && <AmbiguityHighlighter text={note} />}
+      {note.trim() && <AmbiguityHighlighter text={note} wordList={wordList} />}
 
       {/* Ambiguity feedback */}
       {note.trim() && hasAmbiguity && (
