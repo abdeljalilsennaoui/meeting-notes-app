@@ -935,15 +935,17 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
 }
 
 .notebook-nav__item-action {
-  font-size: 0.6875rem;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
   color: var(--text-faint);
   background: none;
   border: 1px solid transparent;
   cursor: pointer;
-  padding: 0.125rem 0.375rem;
   border-radius: var(--radius-xs);
-  transition: color 0.15s, background-color 0.15s;
+  transition: color 0.15s, background-color 0.15s, border-color 0.15s;
 }
 .notebook-nav__item-row:hover .notebook-nav__item-action {
   color: var(--text-secondary);

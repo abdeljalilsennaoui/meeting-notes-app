@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { Plus, ChevronDown, ChevronUp } from 'lucide-react'
+import { Plus, ChevronDown, ChevronUp, Pencil, Trash2 } from 'lucide-react'
 import NoteInput from '../components/NoteInput'
 import WordSettings from '../components/WordSettings'
 import TaskForm from '../components/TaskForm'
@@ -99,15 +99,17 @@ function NotebookItem({ notebook, isActive, onSelect, onRename, onDelete }) {
           className="notebook-nav__item-action"
           onClick={() => { setEditName(notebook.name); setError(''); setMode('editing') }}
           title="Rename"
+          aria-label="Rename notebook"
         >
-          Rename
+          <Pencil size={13} />
         </button>
         <button
           className="notebook-nav__item-action notebook-nav__item-action--delete"
           onClick={() => { setError(''); setMode('confirming') }}
           title="Delete"
+          aria-label="Delete notebook"
         >
-          Delete
+          <Trash2 size={13} />
         </button>
       </div>
     </div>
