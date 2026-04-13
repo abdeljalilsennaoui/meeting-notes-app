@@ -1,10 +1,16 @@
+import { useMemo } from 'react'
 import { AMBIGUOUS_WORDS } from '../utils/ambiguousWords'
 
-export default function AmbiguityHighlighter({ text }) {
-  const escaped = AMBIGUOUS_WORDS.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-  const regex = new RegExp(`\\b(${escaped.join('|')})\\b`, 'gi')
+export default function AmbiguityHighlighter({ text, wordList = AMBIGUOUS_WORDS }) {
+  const { regex, ambiguousSet } = useMemo(() => {
+    const escaped = wordList.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    return {
+      regex: new RegExp(`\\b(${escaped.join('|')})\\b`, 'gi'),
+      ambiguousSet: new Set(wordList.map((w) => w.toLowerCase())),
+    }
+  }, [wordList])
+
   const parts = text.split(regex)
-  const ambiguousSet = new Set(AMBIGUOUS_WORDS.map((w) => w.toLowerCase()))
 
   return (
     <div className="highlighter">

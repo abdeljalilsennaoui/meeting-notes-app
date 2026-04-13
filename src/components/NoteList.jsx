@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { Download } from 'lucide-react'
+import { Download, Search, X } from 'lucide-react'
 
 function downloadTxt(notebookName, notes, tasks) {
   const noteLines = notes.map((n) => {
@@ -38,7 +38,7 @@ function downloadTxt(notebookName, notes, tasks) {
  *   moving      — move-to-notebook selector shown below note content; footer hidden
  *   confirming  — delete confirmation in footer
  */
-function NoteCard({ note, notebooks, activeNotebookId, onUpdate, onMove, onDelete }) {
+function NoteCard({ note, notebooks, activeNotebookId, onUpdate, onMove, onDelete, onConvert }) {
   const [mode, setMode] = useState('view')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
@@ -198,6 +198,9 @@ function NoteCard({ note, notebooks, activeNotebookId, onUpdate, onMove, onDelet
                   {otherNotebooks.length > 0 && (
                     <button className="task-card__action-btn" onClick={openMove}>Move</button>
                   )}
+                  <button className="task-card__action-btn" onClick={() => onConvert(note)}>
+                    Convert to Task
+                  </button>
                   <button
                     className="task-card__delete-btn"
                     onClick={() => { setMode('confirming'); setError('') }}
@@ -214,7 +217,18 @@ function NoteCard({ note, notebooks, activeNotebookId, onUpdate, onMove, onDelet
   )
 }
 
-export default function NoteList({ notes, tasks = [], notebooks, activeNotebookId, notebookName, onUpdate, onMove, onDelete }) {
+export default function NoteList({ notes, tasks = [], notebooks, activeNotebookId, notebookName, onUpdate, onMove, onDelete, onConvert }) {
+  const [search, setSearch] = useState('')
+  const [sortBy, setSortBy] = useState('newest')
+
+  const visibleNotes = notes
+    .filter((n) => !search.trim() || n.content.toLowerCase().includes(search.trim().toLowerCase()))
+    .sort((a, b) => {
+      const aTs = a.createdAt?.seconds ?? 0
+      const bTs = b.createdAt?.seconds ?? 0
+      return sortBy === 'oldest' ? aTs - bTs : bTs - aTs
+    })
+
   return (
     <div>
       {(notes.length > 0 || tasks.length > 0) && (
@@ -230,21 +244,53 @@ export default function NoteList({ notes, tasks = [], notebooks, activeNotebookI
           <p className="empty-state__hint">Write something on the left and hit "Save as note".</p>
         </div>
       ) : (
-        <div className="note-list">
-          <AnimatePresence>
-            {notes.map((note) => (
-              <NoteCard
-                key={note.id}
-                note={note}
-                notebooks={notebooks}
-                activeNotebookId={activeNotebookId}
-                onUpdate={onUpdate}
-                onMove={onMove}
-                onDelete={onDelete}
+        <>
+          <div className="note-filters">
+            <div className="note-filters__search-wrap">
+              <Search size={13} className="note-filters__search-icon" />
+              <input
+                className="note-filters__search"
+                type="text"
+                placeholder="Search notes…"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
               />
-            ))}
-          </AnimatePresence>
-        </div>
+              {search && (
+                <button className="note-filters__clear" onClick={() => setSearch('')} aria-label="Clear search">
+                  <X size={12} />
+                </button>
+              )}
+            </div>
+            <select
+              className="form-select note-filters__sort"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+            </select>
+          </div>
+          {visibleNotes.length === 0 ? (
+            <p className="task-filters__empty">No notes match your search.</p>
+          ) : (
+            <div className="note-list">
+              <AnimatePresence>
+                {visibleNotes.map((note) => (
+                  <NoteCard
+                    key={note.id}
+                    note={note}
+                    notebooks={notebooks}
+                    activeNotebookId={activeNotebookId}
+                    onUpdate={onUpdate}
+                    onMove={onMove}
+                    onDelete={onDelete}
+                    onConvert={onConvert}
+                  />
+                ))}
+              </AnimatePresence>
+            </div>
+          )}
+        </>
       )}
     </div>
   )
