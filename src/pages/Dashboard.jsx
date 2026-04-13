@@ -307,7 +307,14 @@ export default function Dashboard() {
   }
 
   async function handleSavePrefs(newPrefs) {
-    await saveUserPreferences(user.uid, newPrefs)
+    console.log('[prefs] saving for uid:', user.uid, 'prefs:', newPrefs)
+    try {
+      await saveUserPreferences(user.uid, newPrefs)
+      console.log('[prefs] save OK')
+    } catch (err) {
+      console.error('[prefs] save FAILED:', err)
+      throw err
+    }
     setUserPrefs(newPrefs)
   }
 
