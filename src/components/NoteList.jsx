@@ -262,7 +262,7 @@ export default function NoteList({ notes, tasks = [], notebooks, activeNotebookI
               )}
             </div>
             <select
-              className="form-select task-filters__sort"
+              className="form-select note-filters__sort"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >

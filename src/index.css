@@ -807,6 +807,11 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
   color: var(--text-primary);
   background-color: var(--bg-muted);
 }
+.note-filters__sort {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+}
 
 .note-list { display: flex; flex-direction: column; gap: 0.625rem; }
 .note-list__export-row { display: flex; justify-content: flex-end; margin-bottom: 0.75rem; }
