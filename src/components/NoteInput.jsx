@@ -65,9 +65,9 @@ export default function NoteInput({ onProceed, onSaveNote, activeNotebook, onCre
           id={id}
           value={note}
           onChange={(e) => { setNote(e.target.value); setSaveError('') }}
-          rows={6}
+          rows={14}
           placeholder={`e.g.\nSomeone should fix the login bug soon.\nMaybe Alice can handle the report by next week.\nWe need to update the docs at some point.`}
-          className="form-textarea"
+          className="form-textarea note-input__textarea"
         />
       </div>
 
