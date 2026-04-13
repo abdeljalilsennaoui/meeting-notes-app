@@ -9,7 +9,7 @@ import NoteList from '../components/NoteList'
 import { getTasksByNotebook, updateTask, deleteTask } from '../services/taskService'
 import { saveNote, getUserNotebooks, createNotebook, getNotesByNotebook, updateNote, deleteNote, updateNotebook, deleteNotebook } from '../services/noteService'
 import { useAuth } from '../context/AuthContext'
-import { AMBIGUOUS_WORDS } from '../utils/ambiguousWords'
+import { detectAmbiguity, AMBIGUOUS_WORDS } from '../utils/ambiguousWords'
 import { getUserPreferences, saveUserPreferences } from '../services/userPreferencesService'
 
 /**
@@ -124,6 +124,10 @@ export default function Dashboard() {
   // ── Evaluation metadata ────────────────────────────────────
   const [noteConvertedAt, setNoteConvertedAt] = useState(null)
   const [lastAmbiguityCount, setLastAmbiguityCount] = useState(0)
+
+  // ID of the saved note currently being converted to a task (null when converting a fresh note from NoteInput).
+  // If non-null, the note is deleted once the task is successfully created.
+  const [convertingNoteId, setConvertingNoteId] = useState(null)
 
   // ── User preferences (custom ambiguous words) ─────────
   const [userPrefs, setUserPrefs] = useState({ removedDefaultWords: [], customWords: [] })
@@ -308,7 +312,23 @@ export default function Dashboard() {
 
   // ── Task handlers ──────────────────────────────────────────
 
-  function handleTaskCreated() {
+  function handleConvertNote(note) {
+    setConvertingNoteId(note.id)
+    handleProceed(note.content, detectAmbiguity(note.content, effectiveAmbiguousWords).length)
+  }
+
+  async function handleTaskCreated() {
+    // If this task was created by converting a saved note, delete that note now.
+    if (convertingNoteId) {
+      try {
+        await deleteNote(convertingNoteId)
+        setNotebookNotes((prev) => prev.filter((n) => n.id !== convertingNoteId))
+      } catch (err) {
+        console.error('Failed to remove converted note:', err)
+        // Non-fatal — task was created successfully; user can delete the note manually
+      }
+      setConvertingNoteId(null)
+    }
     if (activeNotebookId) loadNotebookTasks(activeNotebookId)
     setStep('note')
     setCurrentNote('')
@@ -408,7 +428,7 @@ export default function Dashboard() {
                     <span className="panel__step-badge">2</span>
                     <h2 className="panel__step-title">Create task</h2>
                   </div>
-                  <button onClick={() => setStep('note')} className="panel__back-btn">
+                  <button onClick={() => { setStep('note'); setConvertingNoteId(null) }} className="panel__back-btn">
                     ← Back to notes
                   </button>
                 </div>
@@ -580,6 +600,7 @@ export default function Dashboard() {
                         onUpdate={handleUpdateNote}
                         onMove={handleMoveNote}
                         onDelete={handleDeleteNote}
+                        onConvert={handleConvertNote}
                       />
                     )
                   )}
