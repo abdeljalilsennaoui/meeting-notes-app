@@ -879,12 +879,12 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   border-left: 2px solid transparent;
 }
-.notebook-nav__item-row:hover { background-color: var(--bg-subtle); }
-.notebook-nav__item-row--active {
+.notebook-nav__item-row:hover { background-color: var(--bg-muted); }
+.notebook-nav__item-row--active,
+.notebook-nav__item-row--active:hover {
   background-color: var(--pal-dark);
   border-left-color: var(--pal-accent);
 }
-.notebook-nav__item-row--active:hover { background-color: var(--action-bg-hover); }
 
 .notebook-nav__item {
   flex: 1;
@@ -914,15 +914,24 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
   opacity: 1;
 }
 .notebook-nav__item-row--active .notebook-nav__item-action {
-  color: rgba(255,255,255,0.6);
+  color: var(--pal-dark);
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
 }
 .notebook-nav__item-row--active .notebook-nav__item-action:hover {
-  color: #ffffff;
-  background-color: rgba(255,255,255,0.12);
+  color: var(--pal-dark);
+  background-color: var(--pal-accent);
+  border-color: var(--pal-accent);
+}
+.notebook-nav__item-row--active .notebook-nav__item-action--delete {
+  color: #b91c1c;
+  background-color: #fee2e2;
+  border-color: #fee2e2;
 }
 .notebook-nav__item-row--active .notebook-nav__item-action--delete:hover {
-  color: #fca5a5;
-  background-color: rgba(220,38,38,0.2);
+  color: #ffffff;
+  background-color: #dc2626;
+  border-color: #dc2626;
 }
 
 .notebook-nav__item-action {
@@ -930,14 +939,27 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
   font-weight: 600;
   color: var(--text-faint);
   background: none;
-  border: none;
+  border: 1px solid transparent;
   cursor: pointer;
   padding: 0.125rem 0.375rem;
   border-radius: var(--radius-xs);
   transition: color 0.15s, background-color 0.15s;
 }
-.notebook-nav__item-action:hover { color: var(--text-secondary); background-color: var(--bg-surface); }
-.notebook-nav__item-action--delete:hover { color: #dc2626; background-color: #fef2f2; }
+.notebook-nav__item-row:hover .notebook-nav__item-action {
+  color: var(--text-secondary);
+  background-color: var(--bg-surface);
+  border-color: var(--border-medium);
+}
+.notebook-nav__item-action:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-surface);
+  border-color: var(--border-accent);
+}
+.notebook-nav__item-action--delete:hover {
+  color: #ffffff;
+  background-color: #dc2626;
+  border-color: #dc2626;
+}
 
 /* Rename edit row */
 .notebook-nav__item-edit {
