@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { Plus, ChevronDown, ChevronUp } from 'lucide-react'
 import NoteInput from '../components/NoteInput'
+import WordSettings from '../components/WordSettings'
 import TaskForm from '../components/TaskForm'
 import TaskList from '../components/TaskList'
 import NoteList from '../components/NoteList'
 import { getTasksByNotebook, updateTask, deleteTask } from '../services/taskService'
 import { saveNote, getUserNotebooks, createNotebook, getNotesByNotebook, updateNote, deleteNote, updateNotebook, deleteNotebook } from '../services/noteService'
 import { useAuth } from '../context/AuthContext'
+import { AMBIGUOUS_WORDS } from '../utils/ambiguousWords'
+import { getUserPreferences, saveUserPreferences } from '../services/userPreferencesService'
 
 /**
  * Inline notebook list item — handles rename and delete without leaving the panel.
@@ -122,6 +125,9 @@ export default function Dashboard() {
   const [noteConvertedAt, setNoteConvertedAt] = useState(null)
   const [lastAmbiguityCount, setLastAmbiguityCount] = useState(0)
 
+  // ── User preferences (custom ambiguous words) ─────────
+  const [userPrefs, setUserPrefs] = useState({ removedDefaultWords: [], customWords: [] })
+
   // ── Tasks ──────────────────────────────────────────────────
   const [tasks, setTasks] = useState([])
   const [loadingTasks, setLoadingTasks] = useState(false)
@@ -193,7 +199,17 @@ export default function Dashboard() {
     }
   }
 
-  useEffect(() => { loadNotebooks() }, [])
+  async function loadUserPrefs() {
+    try {
+      const prefs = await getUserPreferences(user.uid)
+      setUserPrefs(prefs)
+    } catch (err) {
+      console.error('Failed to load user preferences:', err)
+      // Non-fatal — falls back to full default word list
+    }
+  }
+
+  useEffect(() => { loadNotebooks(); loadUserPrefs() }, [])
 
   // Reload both tasks and notes whenever the active notebook changes
   useEffect(() => {
@@ -285,6 +301,11 @@ export default function Dashboard() {
     setNotebookNotes((prev) => prev.filter((n) => n.id !== noteId))
   }
 
+  async function handleSavePrefs(newPrefs) {
+    await saveUserPreferences(user.uid, newPrefs)
+    setUserPrefs(newPrefs)
+  }
+
   // ── Task handlers ──────────────────────────────────────────
 
   function handleTaskCreated() {
@@ -326,6 +347,11 @@ export default function Dashboard() {
     setTasks((prev) => prev.filter((t) => t.id !== taskId))
   }
 
+  const effectiveAmbiguousWords = useMemo(() => [
+    ...AMBIGUOUS_WORDS.filter((w) => !userPrefs.removedDefaultWords.includes(w)),
+    ...userPrefs.customWords,
+  ], [userPrefs])
+
   const activeNotebook = notebooks.find((nb) => nb.id === activeNotebookId) ?? null
 
   return (
@@ -361,6 +387,12 @@ export default function Dashboard() {
                   onSaveNote={handleSaveNote}
                   activeNotebook={activeNotebook}
                   onCreateNotebook={handleCreateNotebookInline}
+                  wordList={effectiveAmbiguousWords}
+                />
+                <WordSettings
+                  defaultWords={AMBIGUOUS_WORDS}
+                  userPrefs={userPrefs}
+                  onSave={handleSavePrefs}
                 />
               </motion.div>
             ) : (
