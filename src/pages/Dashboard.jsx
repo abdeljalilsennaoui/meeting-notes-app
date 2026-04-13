@@ -206,7 +206,6 @@ export default function Dashboard() {
   async function loadUserPrefs() {
     try {
       const prefs = await getUserPreferences(user.uid)
-      console.log('[prefs] uid:', user.uid, 'loaded:', prefs)
       setUserPrefs(prefs)
     } catch (err) {
       console.error('Failed to load user preferences:', err)
@@ -307,14 +306,7 @@ export default function Dashboard() {
   }
 
   async function handleSavePrefs(newPrefs) {
-    console.log('[prefs] saving for uid:', user.uid, 'prefs:', newPrefs)
-    try {
-      await saveUserPreferences(user.uid, newPrefs)
-      console.log('[prefs] save OK')
-    } catch (err) {
-      console.error('[prefs] save FAILED:', err)
-      throw err
-    }
+    await saveUserPreferences(user.uid, newPrefs)
     setUserPrefs(newPrefs)
   }
 
