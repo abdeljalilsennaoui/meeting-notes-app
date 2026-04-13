@@ -549,6 +549,7 @@ export default function Dashboard() {
                       </div>
                     ) : (
                       <TaskList
+                        key={activeNotebookId}
                         tasks={tasks}
                         notebooks={notebooks}
                         activeNotebookId={activeNotebookId}
