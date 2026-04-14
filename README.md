@@ -8,6 +8,12 @@ Transforms ambiguous meeting notes into structured, actionable tasks.
 
 Sign in with the demo account credentials listed in the project report. The account already has sample data so you can go straight to the dashboard.
 
+## Demo Video 
+
+**https://drive.google.com/drive/folders/1HF4zPvrIt1NcKiL4GegVK0N3eqHksC8z?usp=sharing**
+
+The video has sound!
+
 ## Tech Stack
 
 | Layer | Technology |
